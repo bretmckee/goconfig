@@ -56,7 +56,7 @@ const (
 	testValue1         = 101
 	testValue2         = 102
 	testValue3         = 103
-	testGoodYamlConfig = "good.yaml" // Sets value=101 val=102
+	testGoodJSONConfig = "good.json" // Sets value=101 val=102
 )
 
 type nameValue struct {
@@ -386,14 +386,14 @@ func TestLoadViaConfig(t *testing.T) {
 	}{
 		{
 			name: "empty file keeps defaults",
-			file: testFileName("empty.yaml"),
+			file: testFileName("empty.json"),
 			want: testConfig{
 				Value1: testDefaultValue1,
 			},
 		},
 		{
 			name: "good values overwrite defaults",
-			file: testFileName(testGoodYamlConfig),
+			file: testFileName(testGoodJSONConfig),
 			want: testConfig{
 				Value1: testValue1,
 				Nested: testConfig1{
@@ -403,7 +403,7 @@ func TestLoadViaConfig(t *testing.T) {
 		},
 		{
 			name:        "bad values",
-			file:        testFileName("bad.yaml"),
+			file:        testFileName("bad.json"),
 			wantLoadErr: true,
 		},
 	}
@@ -458,7 +458,7 @@ func TestEnvIsAfterFile(t *testing.T) {
 	f.StringSlice(FileArgName, nil, testNoHelpMessage)
 
 	args := []string{
-		fmt.Sprintf("--%s=%s", FileArgName, testFileName(testGoodYamlConfig)),
+		fmt.Sprintf("--%s=%s", FileArgName, testFileName(testGoodJSONConfig)),
 	}
 
 	if err := f.Parse(args); err != nil {
@@ -524,7 +524,7 @@ func TestFlagIsAfterFile(t *testing.T) {
 	f.StringSlice(FileArgName, nil, testNoHelpMessage)
 
 	args := []string{
-		fmt.Sprintf("--%s=%s", FileArgName, testFileName(testGoodYamlConfig)),
+		fmt.Sprintf("--%s=%s", FileArgName, testFileName(testGoodJSONConfig)),
 		fmt.Sprintf("--%s=%d", testKey1, testValue3),
 	}
 

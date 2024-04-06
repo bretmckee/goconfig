@@ -28,7 +28,7 @@ import (
 	"log"
 	"strings"
 
-	"github.com/knadh/koanf/parsers/yaml"
+	"github.com/knadh/koanf/parsers/json"
 	"github.com/knadh/koanf/providers/env"
 	"github.com/knadh/koanf/providers/file"
 	"github.com/knadh/koanf/providers/posflag"
@@ -65,7 +65,7 @@ func (c Config) updateEnv(s string) string {
 	return strings.Replace(strings.ToLower(strings.TrimPrefix(s, c.prefix)), "_", c.delimiter, -1)
 }
 
-// Load loads values into cfg from environment variables, flags and yaml files.
+// Load loads values into cfg from environment variables, flags and json files.
 func (c Config) Load(f *pflag.FlagSet, cfg interface{}) error {
 	const unmarshalEverything = ""
 
@@ -79,7 +79,7 @@ func (c Config) Load(f *pflag.FlagSet, cfg interface{}) error {
 			return fmt.Errorf("Load GetStringSlice: %v", err)
 		}
 		for _, c := range ss {
-			if err := k.Load(file.Provider(c), yaml.Parser()); err != nil {
+			if err := k.Load(file.Provider(c), json.Parser()); err != nil {
 				return fmt.Errorf("Load file %s: %v", c, err)
 			}
 		}
