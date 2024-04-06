@@ -75,4 +75,13 @@
 // this would be:
 //
 // $ export NESTED_VAL="from the environment"
+//
+// Notes:
+//   - This requires using the pflags package instead of the built in flags
+//     package.
+//   - In order for flags to work, the flagset's Parse() routine must be called
+//     before calling Load()
+//   - There are case sensitivities between the koanf struct tag, the flag name
+//     and the JSON field names. Some combinations work, but it is easiest to make
+//     them all match.
 package goconfig
